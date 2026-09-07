@@ -2,24 +2,28 @@ import "./App.css";
 import Editor from "@monaco-editor/react";
 import TerminalPanel from "./components/Terminal";
 import FileExplorer from "./components/FileExplorer";
+import { useState } from "react";
 
 function App() {
+  const [editorContent, setEditorContent] = useState(
+    `function hello() {
+      console.log("Hello Personal AI IDE");
+    }`
+    );
   return (
     <div className="app">
       <div className="top">
       <div className="explorer">
-          <FileExplorer />
+      <FileExplorer setEditorContent={setEditorContent} />
       </div>
 
         <div className="editor">
-         <Editor
-         height="100%"
-        defaultLanguage="typescript"
-        defaultValue={`function hello() {
-        console.log("Hello Personal AI IDE");
-         }`}
-            theme="vs-dark"
-             />
+           <Editor
+               height="100%"
+              defaultLanguage="typescript"
+               value={editorContent}
+             theme="vs-dark"
+          />
         </div>
 
         <div className="agent">
