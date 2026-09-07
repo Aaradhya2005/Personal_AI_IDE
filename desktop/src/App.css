@@ -1,51 +1,50 @@
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
 .app {
   width: 100vw;
   height: 100vh;
-
   display: flex;
   flex-direction: column;
 }
 
 .top {
   flex: 1;
-
   display: flex;
+  min-height: 0;
 }
 
 .explorer {
   width: 250px;
-
-  border-right: 1px solid #ccc;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  border-right: 1px solid #333;
+  background: #252526;
+  color: white;
+  padding: 10px;
 }
 
 .editor {
   flex: 1;
-
-  border-right: 1px solid #ccc;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  min-width: 0;
 }
 
 .agent {
   width: 300px;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  border-left: 1px solid #333;
+  background: #252526;
+  color: white;
+  padding: 10px;
 }
 
 .terminal {
-  height: 200px;
-
-  border-top: 1px solid #ccc;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  height: 220px;
+  border-top: 1px solid #333;
+  background: #1e1e1e;
+  overflow: hidden;
 }
