@@ -20,13 +20,19 @@ body,
   display: flex;
   min-height: 0;
 }
-
 .explorer {
   width: 250px;
+
   border-right: 1px solid #333;
+
   background: #252526;
+
   color: white;
+
   padding: 10px;
+
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .editor {
