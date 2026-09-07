@@ -22,4 +22,7 @@ contextBridge.exposeInMainWorld("electronAPI", {
       path: path.join(dirPath, entry.name),
     }));
   },
+  writeFile: (filePath, content) => {
+    fs.writeFileSync(filePath, content, "utf8");
+  },
 });

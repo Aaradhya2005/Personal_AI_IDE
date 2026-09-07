@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 
 type FileExplorerProps = {
-  setEditorContent: (content: string) => void;
-};
+    setEditorContent: (content: string) => void;
+    setCurrentFile: (path: string) => void;
+  };
 
 type Entry = {
   name: string;
@@ -12,6 +13,7 @@ type Entry = {
 
 export default function FileExplorer({
   setEditorContent,
+  setCurrentFile,
 }: FileExplorerProps) {
   const [rootFiles, setRootFiles] = useState<Entry[]>([]);
   const [expandedFolders, setExpandedFolders] = useState<string[]>([]);
@@ -31,6 +33,7 @@ export default function FileExplorer({
       (window as any).electronAPI.readFile(filePath);
 
     setEditorContent(content);
+    setCurrentFile(filePath);
   };
 
   const toggleFolder = (folderPath: string) => {
