@@ -1,0 +1,51 @@
+.app {
+  width: 100vw;
+  height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.top {
+  flex: 1;
+
+  display: flex;
+}
+
+.explorer {
+  width: 250px;
+
+  border-right: 1px solid #ccc;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.editor {
+  flex: 1;
+
+  border-right: 1px solid #ccc;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.agent {
+  width: 300px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.terminal {
+  height: 200px;
+
+  border-top: 1px solid #ccc;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
