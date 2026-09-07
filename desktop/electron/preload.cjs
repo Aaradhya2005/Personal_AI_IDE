@@ -1,4 +1,4 @@
-const { contextBridge } = require("electron");
+const { contextBridge, ipcRenderer } = require("electron");
 const fs = require("fs");
 const path = require("path");
 
@@ -24,5 +24,14 @@ contextBridge.exposeInMainWorld("electronAPI", {
   },
   writeFile: (filePath, content) => {
     fs.writeFileSync(filePath, content, "utf8");
+  },
+  sendTerminalData: (data) => {
+    ipcRenderer.send("terminal:write", data);
+  },
+  
+  onTerminalData: (callback) => {
+    ipcRenderer.on("terminal:data", (_, data) => {
+      callback(data);
+    });
   },
 });

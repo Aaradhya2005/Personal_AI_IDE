@@ -29,7 +29,18 @@ export default function TerminalPanel() {
 
     term.writeln("Personal AI IDE");
     term.writeln("");
-    term.writeln("Terminal Ready...");
+
+    // Receive output from PowerShell
+    (window as any).electronAPI.onTerminalData(
+      (data: string) => {
+        term.write(data);
+      }
+    );
+
+    // Send keyboard input to PowerShell
+    term.onData((data) => {
+      (window as any).electronAPI.sendTerminalData(data);
+    });
 
     const resizeHandler = () => {
       fitAddon.fit();
