@@ -1,0 +1,34 @@
+# Node.js
+node_modules/
+dist/
+.vite/
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Environment variables
+.env
+.env.*
+
+# Generated reports
+reports/*.json
+
+# User workspaces
+workspaces/
+
+# Local models
+models/
+
+# Logs
+*.log
+
+# IDE files
+.vscode/
+.idea/
+
+# OS files
+Thumbs.db
+.DS_Store
