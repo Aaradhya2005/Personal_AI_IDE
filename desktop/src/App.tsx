@@ -6,7 +6,16 @@ function App() {
   return (
     <div className="app">
       <div className="top">
-        <div className="explorer">Explorer</div>
+      <div className="explorer">
+          <h3>Explorer</h3>
+
+          <ul>
+            <li>src</li>
+           <li>backend</li>
+           <li>models</li>
+           <li>reports</li>
+         </ul>
+        </div>
 
         <div className="editor">
          <Editor
@@ -19,7 +28,13 @@ function App() {
              />
         </div>
 
-        <div className="agent">AI Agent</div>
+        <div className="agent">
+            <h3>AI Agent</h3>
+
+            <textarea placeholder="Ask the agent to modify code..." />
+
+            <button>Run Agent</button>
+          </div>
       </div>
 
       <div className="terminal">
