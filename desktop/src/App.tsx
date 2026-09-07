@@ -1,21 +1,15 @@
 import "./App.css";
 import Editor from "@monaco-editor/react";
 import TerminalPanel from "./components/Terminal";
+import FileExplorer from "./components/FileExplorer";
 
 function App() {
   return (
     <div className="app">
       <div className="top">
       <div className="explorer">
-          <h3>Explorer</h3>
-
-          <ul>
-            <li>src</li>
-           <li>backend</li>
-           <li>models</li>
-           <li>reports</li>
-         </ul>
-        </div>
+          <FileExplorer />
+      </div>
 
         <div className="editor">
          <Editor
