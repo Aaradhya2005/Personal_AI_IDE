@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
+import "./FileExplorer.css";
 
 type FileExplorerProps = {
-    setEditorContent: (content: string) => void;
-    setCurrentFile: (path: string) => void;
-  };
+  setEditorContent: (content: string) => void;
+  setCurrentFile: (path: string) => void;
+};
 
 type Entry = {
   name: string;
@@ -17,16 +18,45 @@ export default function FileExplorer({
 }: FileExplorerProps) {
   const [rootFiles, setRootFiles] = useState<Entry[]>([]);
   const [expandedFolders, setExpandedFolders] = useState<string[]>([]);
-  const [folderContents, setFolderContents] = useState<
-    Record<string, Entry[]>
-  >({});
+  const [folderContents, setFolderContents] =
+    useState<Record<string, Entry[]>>({});
 
-  useEffect(() => {
-    const files =
-      (window as any).electronAPI.getDirectoryContents("../");
+  const [selectedEntry, setSelectedEntry] =
+    useState<Entry | null>(null);
 
-    setRootFiles(files);
-  }, []);
+  const [contextMenu, setContextMenu] = useState({
+    visible: false,
+    x: 0,
+    y: 0,
+  });
+
+  const [showNewFileModal, setShowNewFileModal] =
+    useState(false);
+
+  const [newFileName, setNewFileName] =
+    useState("");
+    const loadRootFiles = () => {
+      const files =
+        (window as any).electronAPI.getDirectoryContents("../");
+    
+      setRootFiles(files);
+    };
+    
+    useEffect(() => {
+      loadRootFiles();
+    }, []);
+
+  const refreshFolder = (folderPath: string) => {
+    const contents =
+      (window as any).electronAPI.getDirectoryContents(
+        folderPath
+      );
+
+    setFolderContents((prev) => ({
+      ...prev,
+      [folderPath]: contents,
+    }));
+  };
 
   const openFile = (filePath: string) => {
     const content =
@@ -45,14 +75,19 @@ export default function FileExplorer({
     }
 
     const contents =
-      (window as any).electronAPI.getDirectoryContents(folderPath);
+      (window as any).electronAPI.getDirectoryContents(
+        folderPath
+      );
 
     setFolderContents((prev) => ({
       ...prev,
       [folderPath]: contents,
     }));
 
-    setExpandedFolders((prev) => [...prev, folderPath]);
+    setExpandedFolders((prev) => [
+      ...prev,
+      folderPath,
+    ]);
   };
 
   const renderTree = (
@@ -62,11 +97,20 @@ export default function FileExplorer({
     return entries.map((entry) => (
       <div key={entry.path}>
         <div
+          className="explorer-item"
           style={{
-            padding: "4px",
-            cursor: "pointer",
             marginLeft: `${level * 20}px`,
-            userSelect: "none",
+          }}
+          onContextMenu={(e) => {
+            e.preventDefault();
+
+            setSelectedEntry(entry);
+
+            setContextMenu({
+              visible: true,
+              x: e.pageX,
+              y: e.pageY,
+            });
           }}
           onClick={() => {
             if (entry.isDirectory) {
@@ -76,13 +120,11 @@ export default function FileExplorer({
             }
           }}
         >
-          {entry.isDirectory ? (
-            expandedFolders.includes(entry.path)
+          {entry.isDirectory
+            ? expandedFolders.includes(entry.path)
               ? "▼ 📁 "
               : "▶ 📁 "
-          ) : (
-            "📄 "
-          )}
+            : "📄 "}
 
           {entry.name}
         </div>
@@ -99,12 +141,130 @@ export default function FileExplorer({
   };
 
   return (
-    <div>
-      <h3>Explorer</h3>
+    <div
+      className="explorer-container"
+      onClick={() =>
+        setContextMenu({
+          visible: false,
+          x: 0,
+          y: 0,
+        })
+      }
+    >
+      <h3 className="explorer-title">
+        Explorer
+      </h3>
 
-      <div>
+      <div className="explorer-tree">
         {renderTree(rootFiles)}
       </div>
+
+      {contextMenu.visible && (
+        <div
+          className="context-menu"
+          style={{
+            top: contextMenu.y,
+            left: contextMenu.x,
+          }}
+        >
+          <div
+            className="context-menu-item"
+            onClick={() => {
+              setShowNewFileModal(true);
+
+              setContextMenu({
+                visible: false,
+                x: 0,
+                y: 0,
+              });
+            }}
+          >
+            New File
+          </div>
+
+          <div className="context-menu-item">
+            New Folder
+          </div>
+
+          <div className="context-menu-item">
+            Rename
+          </div>
+
+          <div className="context-menu-item">
+            Delete
+          </div>
+        </div>
+      )}
+
+      {showNewFileModal && (
+        <div className="modal-overlay">
+          <div className="modal">
+            <h3>New File</h3>
+
+            <input
+              type="text"
+              placeholder="example.py"
+              value={newFileName}
+              onChange={(e) =>
+                setNewFileName(e.target.value)
+              }
+            />
+
+            <div className="modal-buttons">
+              <button
+                onClick={() => {
+                  if (!selectedEntry) return;
+                  if (!newFileName.trim()) return;
+
+                  const parentPath =
+                    selectedEntry.isDirectory
+                      ? selectedEntry.path
+                      : selectedEntry.path.substring(
+                          0,
+                          selectedEntry.path.lastIndexOf(
+                            "\\"
+                          )
+                        );
+
+                  const newFilePath =
+                    parentPath +
+                    "\\" +
+                    newFileName;
+
+                    (window as any).electronAPI.createFile(
+                      newFilePath
+                    );
+                    
+                    refreshFolder(parentPath);
+                    
+                    openFile(newFilePath);
+                    
+                    setShowNewFileModal(false);
+                    setNewFileName("");
+                    setSelectedEntry(null);
+                }}
+              >
+                Create
+              </button>
+
+              <button
+                onClick={() => {
+                  setShowNewFileModal(false);
+                  setNewFileName("");
+                }}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {selectedEntry && (
+        <div className="selected-entry">
+          Selected: {selectedEntry.name}
+        </div>
+      )}
     </div>
   );
 }

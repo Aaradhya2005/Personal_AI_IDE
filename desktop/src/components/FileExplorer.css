@@ -1,0 +1,112 @@
+.explorer-container {
+    height: 100%;
+  }
+  
+  .explorer-title {
+    margin: 0;
+    padding: 10px;
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  .explorer-tree {
+    user-select: none;
+  }
+  
+  .explorer-item {
+    padding: 4px;
+    cursor: pointer;
+  }
+  
+  .explorer-item:hover {
+    background-color: #2a2d2e;
+  }
+  
+  .context-menu {
+    position: fixed;
+    background: #252526;
+    border: 1px solid #444;
+    border-radius: 4px;
+    min-width: 150px;
+    z-index: 9999;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+  }
+  
+  .context-menu-item {
+    padding: 8px;
+    cursor: pointer;
+  }
+  
+  .context-menu-item:hover {
+    background-color: #094771;
+  }
+  
+  .selected-entry {
+    margin-top: 10px;
+    color: #aaa;
+    font-size: 12px;
+    padding-left: 10px;
+  }
+
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+  
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  
+    z-index: 10000;
+  }
+  
+  .modal {
+    background: #252526;
+    border: 1px solid #444;
+    border-radius: 8px;
+  
+    padding: 20px;
+    width: 300px;
+  
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .modal h3 {
+    margin: 0;
+    color: white;
+  }
+  
+  .modal input {
+    background: #1e1e1e;
+    color: white;
+  
+    border: 1px solid #444;
+    border-radius: 4px;
+  
+    padding: 8px;
+  }
+  
+  .modal-buttons {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .modal-buttons button {
+    flex: 1;
+  
+    padding: 8px;
+  
+    background: #0e639c;
+    color: white;
+  
+    border: none;
+    border-radius: 4px;
+  
+    cursor: pointer;
+  }
+  
+  .modal-buttons button:hover {
+    background: #1177bb;
+  }

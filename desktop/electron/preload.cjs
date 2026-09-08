@@ -28,6 +28,25 @@ contextBridge.exposeInMainWorld("electronAPI", {
   sendTerminalData: (data) => {
     ipcRenderer.send("terminal:write", data);
   },
+ 
+  createFile: (filePath) => {
+    fs.writeFileSync(filePath, "", "utf8");
+  },
+  
+  createFolder: (folderPath) => {
+    fs.mkdirSync(folderPath);
+  },
+  
+  deletePath: (targetPath) => {
+    fs.rmSync(targetPath, {
+      recursive: true,
+      force: true,
+    });
+  },
+  
+  renamePath: (oldPath, newPath) => {
+    fs.renameSync(oldPath, newPath);
+  },
   
   onTerminalData: (callback) => {
     ipcRenderer.on("terminal:data", (_, data) => {

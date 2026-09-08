@@ -29,7 +29,7 @@ app.whenReady().then(() => {
     name: "xterm-color",
     cols: 120,
     rows: 30,
-    cwd: process.cwd(),
+    cwd: path.resolve(__dirname, "../../"),
     env: process.env,
   });
   shell.onData((data) => {
